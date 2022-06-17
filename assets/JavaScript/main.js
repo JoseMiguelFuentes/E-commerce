@@ -52,9 +52,18 @@ let cart = []
 document.addEventListener("DOMContentLoaded", () =>{
     mostrarProductos()
     const storedCart = window.sessionStorage.getItem('cart')
+    
     if (storedCart) {
       cart = JSON.parse(storedCart)
     }
+//Test Dark mode.
+  if ( JSON.parse (localStorage.getItem('dark-mode') ) === true){
+  document.body.classList.add ( "dark-mode")
+}else{
+  document.body.classList.remove ( "dark-mode")
+}
+    
+   
     mostrarProductosCart(  )
 })
 
@@ -71,12 +80,24 @@ cartIcon.addEventListener( "click", () =>{
 cartClose.addEventListener( "click", () =>{
     cartOverlay.classList.remove("open-cart")
 })
+ 
 moon.addEventListener( "click", () =>{
   document.body.classList.add("dark-mode")
-})
+  if ( document.body.classList.contains ( "dark-mode" ) ){
+    localStorage.setItem('dark-mode', JSON.stringify(true))
+  }
+  }
+)
 sun.addEventListener( "click", () =>{
   document.body.classList.remove("dark-mode")
-})
+  localStorage.setItem('dark-mode', JSON.stringify(false))
+  })
+  
+  
+
+
+    
+
 /*darkMode.addEventListener( "click", () =>{
   darkMode.classList.remove("dark-mode")
 })*/
@@ -153,7 +174,7 @@ function mostrarProductos( tipo ) {
 
 function agregarProducto(producto) {
     let resultadoFind = cart.find(item => item.id === producto.id)
-      
+     
     if(resultadoFind) {
         cart.forEach(item => {
           if(item === resultadoFind) item.quantity += 1
